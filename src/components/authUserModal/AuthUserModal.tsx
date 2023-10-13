@@ -1,30 +1,23 @@
 import { Button, Modal, Space } from "antd-mobile";
-import { AddLocomotive } from "components";
-import { FC, useState } from "react";
-import { ILoco } from "types/loco";
+import { FC } from "react";
 
 interface Props {
-  addLoco: (form: any) => void;
-  locomotives: ILoco[];
+  onAuthModalVisible: (bool: boolean) => void;
+  isAuthModalVisible: boolean;
 }
 
-export const AuthUserModal: FC<Props> = ({ addLoco, locomotives }) => {
-  const [isVisible, setIsVisible] = useState(true);
-
-  const [isFormAddLocoVisible, setIsFormAddLocoVisible] = useState(false);
-
+export const AuthUserModal: FC<Props> = ({
+  onAuthModalVisible,
+  isAuthModalVisible,
+}) => {
   const handlerClick = () => {
-    setIsFormAddLocoVisible(true);
-    setIsVisible(false);
+    onAuthModalVisible(false);
   };
 
   return (
     <>
-      {isFormAddLocoVisible ? (
-        <AddLocomotive addLoco={addLoco} locomotives={locomotives} />
-      ) : null}
       <Modal
-        visible={isVisible}
+        visible={isAuthModalVisible}
         content={
           <Space direction="vertical" block>
             <Button block color="primary" onClick={handlerClick}>
@@ -36,7 +29,7 @@ export const AuthUserModal: FC<Props> = ({ addLoco, locomotives }) => {
           </Space>
         }
         onClose={() => {
-          setIsVisible(false);
+          onAuthModalVisible(false);
         }}
       />
     </>

@@ -6,9 +6,14 @@ import { ILoco } from "types/loco";
 interface Props {
   addLoco: (form: any) => void;
   locomotives: ILoco[];
+  deleteLoco: (id: string) => void;
 }
 
-export const AddLocomotive: FC<Props> = ({ addLoco, locomotives }) => {
+export const AddLocomotive: FC<Props> = ({
+  addLoco,
+  locomotives,
+  deleteLoco,
+}) => {
   const [value, setValue] = useState("");
   const [form] = Form.useForm();
 
@@ -18,7 +23,7 @@ export const AddLocomotive: FC<Props> = ({ addLoco, locomotives }) => {
         form={form}
         initialValues={{
           series: "2ЭС6",
-          number: 0,
+          number: 1,
         }}
         footer={
           <Button block color="primary" onClick={() => addLoco(form)}>
@@ -56,7 +61,7 @@ export const AddLocomotive: FC<Props> = ({ addLoco, locomotives }) => {
           />
         </Form.Item>
       </Form>
-      <LocoList items={locomotives} />
+      <LocoList items={locomotives} deleteLoco={deleteLoco} />
     </>
   );
 };
