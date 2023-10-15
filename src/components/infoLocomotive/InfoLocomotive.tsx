@@ -3,7 +3,11 @@ import { FC } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { ILoco } from "types/loco";
 import { LeftOutline } from "antd-mobile-icons";
-import { ElectricalEquipment, MechanicalEquipment } from "components";
+import {
+  AutoBrakingEquipment,
+  ElectricalEquipment,
+  MechanicalEquipment,
+} from "components";
 
 interface Props {
   findSingleLoco: (id: string | undefined) => ILoco | undefined;
@@ -30,6 +34,7 @@ export const InfoLocomotive: FC<Props> = ({ findSingleLoco }) => {
       </Divider>
       <MechanicalEquipment />
       <ElectricalEquipment />
+      <AutoBrakingEquipment />
     </>
   );
 };

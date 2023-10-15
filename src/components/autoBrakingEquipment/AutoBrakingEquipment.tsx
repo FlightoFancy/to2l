@@ -1,11 +1,13 @@
 import { Form, Result, Stepper, Switch, TextArea } from "antd-mobile";
 import { FC, useState } from "react";
 
-export const MechanicalEquipment: FC = () => {
+export const AutoBrakingEquipment: FC = () => {
   const [form] = Form.useForm();
   const [checked, setChecked] = useState(false);
-  const chockField = form.getFieldValue("chock");
+
   const extraField = form.getFieldValue("extra");
+  const oilAField = form.getFieldValue("oilA");
+  const oilBField = form.getFieldValue("oilB");
 
   function handlerSwitchChecked() {
     setChecked(true);
@@ -14,17 +16,38 @@ export const MechanicalEquipment: FC = () => {
     }
   }
 
+  function calcOil(oil: number) {
+    if (oil === undefined) {
+      return "в норме";
+    }
+    if (oil === 0) {
+      return "в норме";
+    }
+    if (oil === 1) {
+      return "1 литр";
+    }
+    if (oil === 5) {
+      return "5 литров";
+    } else return `${oil} литра`;
+  }
+
   return (
     <>
       <Form layout="horizontal" form={form}>
-        <Form.Header>Механическое оборудование</Form.Header>
+        <Form.Header>Автотормозное оборудование</Form.Header>
         <Form.Item
-          name="chock"
-          label="Количество смененных тормозных колодок"
-          childElementPosition="right"
+          name="oilA"
+          label="Секция А заливка компрессорного масла (в литрах)"
           hidden={checked ? true : false}
         >
-          <Stepper max={32} min={0} />
+          <Stepper min={0} max={5} step={0.5} defaultValue={0} />
+        </Form.Item>
+        <Form.Item
+          name="oilB"
+          label="Секция Б заливка компрессорного масла (в литрах)"
+          hidden={checked ? true : false}
+        >
+          <Stepper min={0} max={5} step={0.5} />
         </Form.Item>
         <Form.Item
           name="extra"
@@ -48,10 +71,11 @@ export const MechanicalEquipment: FC = () => {
       </Form>
       <Result
         status={checked ? "success" : "waiting"}
-        title="Механичекое оборудование"
+        title="Автотормозное оборудование"
         description={
           checked
-            ? `Замененных колодок: ${chockField ? chockField : 0}
+            ? `Секция А залито компрессорного масла: ${calcOil(oilAField)};
+              Секция Б залито компрессорного масла: ${calcOil(oilBField)};
         Дополнительно: ${extraField ? extraField : "нет"}
         `
             : null
