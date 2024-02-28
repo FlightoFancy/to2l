@@ -38,6 +38,39 @@ function App() {
   const deleteLoco = (id: string) => {
     setLocomotives([...locomotives.filter((loco) => loco.id !== id)]);
   };
+  const addCountChock = (id: string, chock: number) => {
+    setLocomotives(
+      locomotives.map((loco) => {
+        if (loco.id !== id) return loco;
+        return {
+          ...loco,
+          chockCount: chock,
+        };
+      })
+    );
+  };
+  const editReadyMech = (id: string, isReady: boolean) => {
+    setLocomotives(
+      locomotives.map((loco) => {
+        if (loco.id !== id) return loco;
+        return {
+          ...loco,
+          isReady: isReady,
+        };
+      })
+    );
+  };
+  const addExtraMech = (id: string, extra: string) => {
+    setLocomotives(
+      locomotives.map((loco) => {
+        if (loco.id !== id) return loco;
+        return {
+          ...loco,
+          extra: extra,
+        };
+      })
+    );
+  };
 
   return (
     <>
@@ -62,7 +95,14 @@ function App() {
             <Route path="*" element={<ErrorPage />} />
             <Route
               path="/infolocomotive/:id"
-              element={<InfoLocomotive findSingleLoco={findSingleLoco} />}
+              element={
+                <InfoLocomotive
+                  findSingleLoco={findSingleLoco}
+                  addCountChock={addCountChock}
+                  editReadyMech={editReadyMech}
+                  addExtraMech={addExtraMech}
+                />
+              }
             />
           </Routes>
         </>

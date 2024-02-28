@@ -11,13 +11,21 @@ import {
 
 interface Props {
   findSingleLoco: (id: string | undefined) => ILoco | undefined;
+  addCountChock: (id: string, chock: number) => void;
+  editReadyMech: (id: string, isReady: boolean) => void;
+  addExtraMech: (id: string, extra: string) => void;
 }
 
-export const InfoLocomotive: FC<Props> = ({ findSingleLoco }) => {
+export const InfoLocomotive: FC<Props> = ({
+  findSingleLoco,
+  addCountChock,
+  editReadyMech,
+  addExtraMech
+}) => {
   const { id } = useParams();
   const navigate = useNavigate();
   const onBack = () => {
-    navigate(-1);
+    navigate("..");
   };
 
   return (
@@ -32,7 +40,13 @@ export const InfoLocomotive: FC<Props> = ({ findSingleLoco }) => {
           {findSingleLoco(id)?.series} № {findSingleLoco(id)?.number}
         </h3>
       </Divider>
-      <MechanicalEquipment />
+      <MechanicalEquipment
+        addCountChock={addCountChock}
+        id={id}
+        findSingleLoco={findSingleLoco}
+        editReadyMech={editReadyMech}
+        addExtraMech={addExtraMech}
+      />
       <ElectricalEquipment />
       <AutoBrakingEquipment />
     </>

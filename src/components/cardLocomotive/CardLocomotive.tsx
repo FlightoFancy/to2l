@@ -8,7 +8,7 @@ interface Props extends ILoco {}
 export const CardLocomotive: FC<Props> = ({ series, number }) => {
   const titleLoco = `${series} № ${number}`;
   const onclick = () =>{
-    console.log('sdf')
+    console.log('удалено')
   }
   return (
     <>

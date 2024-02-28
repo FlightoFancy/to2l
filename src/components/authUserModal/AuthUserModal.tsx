@@ -18,6 +18,7 @@ export const AuthUserModal: FC<Props> = ({
     <>
       <Modal
         visible={isAuthModalVisible}
+        forceRender
         content={
           <Space direction="vertical" block>
             <Button block color="primary" onClick={handlerClick}>

@@ -1,16 +1,37 @@
 import { Form, Result, Stepper, Switch, TextArea } from "antd-mobile";
 import { FC, useState } from "react";
+import { ILoco } from "types/loco";
 
-export const MechanicalEquipment: FC = () => {
+interface Props {
+  addCountChock: (id: string, chock: number) => void;
+  id: string | undefined;
+  findSingleLoco: (id: string | undefined) => ILoco | undefined;
+  editReadyMech: (id: string, isReady: boolean) => void;
+  addExtraMech: (id: string, extra: string) => void;
+}
+
+export const MechanicalEquipment: FC<Props> = ({
+  addCountChock,
+  id,
+  findSingleLoco,
+  editReadyMech,
+  addExtraMech,
+}) => {
   const [form] = Form.useForm();
-  const [checked, setChecked] = useState(false);
-  const chockField = form.getFieldValue("chock");
-  const extraField = form.getFieldValue("extra");
+
+  const chockField = findSingleLoco(id)?.chockCount;
+  const extraField = findSingleLoco(id)?.extra;
+
+  const [checked, setChecked] = useState(findSingleLoco(id)?.isReady);
 
   function handlerSwitchChecked() {
     setChecked(true);
-    if (checked) {
-      setChecked(false);
+    if (id) {
+      editReadyMech(id, true);
+      if (checked) {
+        setChecked(false);
+        editReadyMech(id, false);
+      }
     }
   }
 
@@ -23,19 +44,30 @@ export const MechanicalEquipment: FC = () => {
           label="Количество смененных тормозных колодок"
           childElementPosition="right"
           hidden={checked ? true : false}
+          initialValue={chockField}
         >
-          <Stepper max={32} min={0} />
+          <Stepper
+            max={32}
+            min={0}
+            onChange={(value) => {
+              if (id) addCountChock(id, value);
+            }}
+          />
         </Form.Item>
         <Form.Item
           name="extra"
           label="Дополнительно"
           hidden={checked ? true : false}
+          initialValue={extraField}
         >
           <TextArea
             placeholder="Опишите виды работ"
             maxLength={100}
             rows={2}
             showCount
+            onChange={(value) => {
+              if (id) addExtraMech(id, value);
+            }}
           />
         </Form.Item>
         <Form.Item

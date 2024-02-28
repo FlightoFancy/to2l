@@ -25,7 +25,10 @@ export const LocoList: FC<Props> = ({ items, deleteLoco }) => {
             }
             arrow
           >
-            <Link to={`/infolocomotive/${loco.id}`}>
+            <Link
+              style={{ textDecoration: "none" }}
+              to={`/infolocomotive/${loco.id}`}
+            >
               {loco.series} № {loco.number}
             </Link>
           </List.Item>

@@ -1,4 +1,4 @@
-import { Form, Result, Stepper, Switch, TextArea } from "antd-mobile";
+import { Button, Form, Result, Stepper, Switch, TextArea } from "antd-mobile";
 import { FC, useState } from "react";
 
 export const AutoBrakingEquipment: FC = () => {
@@ -15,11 +15,11 @@ export const AutoBrakingEquipment: FC = () => {
       setChecked(false);
     }
   }
+  const onFinish = (values: any) => {
+    console.log(values);
+  };
 
   function calcOil(oil: number) {
-    if (oil === undefined) {
-      return "в норме";
-    }
     if (oil === 0) {
       return "в норме";
     }
@@ -33,7 +33,21 @@ export const AutoBrakingEquipment: FC = () => {
 
   return (
     <>
-      <Form layout="horizontal" form={form}>
+      <Form
+        layout="horizontal"
+        form={form}
+        onFinish={onFinish}
+        footer={
+          <Button block type="submit" color="primary" size="large">
+            Подтведить
+          </Button>
+        }
+        initialValues={{
+          oilA: 0,
+          oilB: 0,
+          extra: "",
+        }}
+      >
         <Form.Header>Автотормозное оборудование</Form.Header>
         <Form.Item
           name="oilA"
