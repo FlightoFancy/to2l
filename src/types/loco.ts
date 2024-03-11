@@ -1,7 +1,7 @@
 export interface ILoco extends IMechanical {
   id: string;
   series: string;
-  number: number;
+  number: string;
 }
 
 interface IMechanical {

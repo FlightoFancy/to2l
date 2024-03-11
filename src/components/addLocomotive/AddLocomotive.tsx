@@ -1,21 +1,13 @@
 import { Button, Form, Input, Radio, Space } from "antd-mobile";
-import { FC, useState } from "react";
+import { FC } from "react";
 import { LocoList } from "components";
-import { ILoco } from "types/loco";
+import { useAppDispatch } from "hooks";
+import { addLoco } from "../../redux/ducks/Locomotive";
 
-interface Props {
-  addLoco: (form: any) => void;
-  locomotives: ILoco[];
-  deleteLoco: (id: string) => void;
-}
-
-export const AddLocomotive: FC<Props> = ({
-  addLoco,
-  locomotives,
-  deleteLoco,
-}) => {
-  const [value, setValue] = useState("");
+export const AddLocomotive: FC = () => {
   const [form] = Form.useForm();
+
+  const dispatch = useAppDispatch();
 
   return (
     <>
@@ -26,7 +18,11 @@ export const AddLocomotive: FC<Props> = ({
           number: 1,
         }}
         footer={
-          <Button block color="primary" onClick={() => addLoco(form)}>
+          <Button
+            block
+            color="primary"
+            onClick={() => dispatch(addLoco({ form }))}
+          >
             Добавить
           </Button>
         }
@@ -50,10 +46,6 @@ export const AddLocomotive: FC<Props> = ({
         >
           <Input
             placeholder="Номер"
-            value={value}
-            onChange={(val) => {
-              setValue(val);
-            }}
             type="number"
             max={2000}
             min={1}
@@ -61,7 +53,7 @@ export const AddLocomotive: FC<Props> = ({
           />
         </Form.Item>
       </Form>
-      <LocoList items={locomotives} deleteLoco={deleteLoco} />
+      <LocoList />
     </>
   );
 };

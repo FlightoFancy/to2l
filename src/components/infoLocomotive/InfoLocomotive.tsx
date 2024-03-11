@@ -8,24 +8,22 @@ import {
   ElectricalEquipment,
   MechanicalEquipment,
 } from "components";
+import { useAppSelector } from "hooks";
 
-interface Props {
-  findSingleLoco: (id: string | undefined) => ILoco | undefined;
-  addCountChock: (id: string, chock: number) => void;
-  editReadyMech: (id: string, isReady: boolean) => void;
-  addExtraMech: (id: string, extra: string) => void;
-}
-
-export const InfoLocomotive: FC<Props> = ({
-  findSingleLoco,
-  addCountChock,
-  editReadyMech,
-  addExtraMech
-}) => {
+export const InfoLocomotive: FC = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const onBack = () => {
     navigate("..");
+  };
+
+  const locos = useAppSelector((state) => state.locomotives.locomotives.list);
+
+  const findSingleLoco = (id: string | undefined): ILoco | undefined => {
+    let singleLoco = locos.find((loco) => loco.id === id);
+    if (singleLoco) {
+      return singleLoco;
+    }
   };
 
   return (
@@ -40,13 +38,7 @@ export const InfoLocomotive: FC<Props> = ({
           {findSingleLoco(id)?.series} № {findSingleLoco(id)?.number}
         </h3>
       </Divider>
-      <MechanicalEquipment
-        addCountChock={addCountChock}
-        id={id}
-        findSingleLoco={findSingleLoco}
-        editReadyMech={editReadyMech}
-        addExtraMech={addExtraMech}
-      />
+      <MechanicalEquipment id={id} findSingleLoco={findSingleLoco} />
       <ElectricalEquipment />
       <AutoBrakingEquipment />
     </>

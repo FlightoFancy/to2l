@@ -1,22 +1,19 @@
 import { Form, Result, Stepper, Switch, TextArea } from "antd-mobile";
 import { FC, useState } from "react";
 import { ILoco } from "types/loco";
+import { useAppDispatch } from "hooks";
+import {
+  addCountChock,
+  addExtraMech,
+  editReadyMech,
+} from "../../redux/ducks/Locomotive";
 
 interface Props {
-  addCountChock: (id: string, chock: number) => void;
   id: string | undefined;
   findSingleLoco: (id: string | undefined) => ILoco | undefined;
-  editReadyMech: (id: string, isReady: boolean) => void;
-  addExtraMech: (id: string, extra: string) => void;
 }
 
-export const MechanicalEquipment: FC<Props> = ({
-  addCountChock,
-  id,
-  findSingleLoco,
-  editReadyMech,
-  addExtraMech,
-}) => {
+export const MechanicalEquipment: FC<Props> = ({ id, findSingleLoco }) => {
   const [form] = Form.useForm();
 
   const chockField = findSingleLoco(id)?.chockCount;
@@ -24,13 +21,15 @@ export const MechanicalEquipment: FC<Props> = ({
 
   const [checked, setChecked] = useState(findSingleLoco(id)?.isReady);
 
+  const dispatch = useAppDispatch();
+
   function handlerSwitchChecked() {
     setChecked(true);
     if (id) {
-      editReadyMech(id, true);
+      dispatch(editReadyMech({ id, isReady: true }));
       if (checked) {
         setChecked(false);
-        editReadyMech(id, false);
+        dispatch(editReadyMech({ id, isReady: false }));
       }
     }
   }
@@ -50,7 +49,7 @@ export const MechanicalEquipment: FC<Props> = ({
             max={32}
             min={0}
             onChange={(value) => {
-              if (id) addCountChock(id, value);
+              if (id) dispatch(addCountChock({ id, value }));
             }}
           />
         </Form.Item>
@@ -66,7 +65,7 @@ export const MechanicalEquipment: FC<Props> = ({
             rows={2}
             showCount
             onChange={(value) => {
-              if (id) addExtraMech(id, value);
+              if (id) dispatch(addExtraMech({ id, extra: value }));
             }}
           />
         </Form.Item>
